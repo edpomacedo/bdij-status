@@ -9,7 +9,7 @@ function App() {
   const checkServiceStatus = async (url, serviceName) => {
     try {
       const response = await fetch(url);
-      const status = response.status === 404 ? 'Operacional' : 'Indisponível';
+      const status = response.status === 200 ? 'Operacional' : 'Indisponível';
       setServiceStatus(prevStatus => ({ ...prevStatus, [serviceName]: status }));
     } catch (error) {
       setServiceStatus(prevStatus => ({ ...prevStatus, [serviceName]: 'Erro ao verificar o status' }));
@@ -22,8 +22,9 @@ function App() {
       setLoading(true);
 
       // Verificar o status inicial
-      await checkServiceStatus('https://proxy.bdij.com.br', 'Proxy');
-      // await checkServiceStatus('https://api.bdij.com.br', 'API');
+      await checkServiceStatus('https://api.bdij.com.br', 'API');
+      await checkServiceStatus('https://web.bdij.com.br/w/rest.php/v1/page/Main_Page', 'REST');
+      await checkServiceStatus('https://web.bdij.com.br/query/sparql', 'SPARQL');
       // Adicione mais serviços conforme necessário
 
       setLoading(false);
